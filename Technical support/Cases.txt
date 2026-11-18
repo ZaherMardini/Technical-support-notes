@@ -1,0 +1,36 @@
+##### Case 1: Windows update services are disabled and need permissions, this behavior is enforced by a group policy
+###   Solution: Delete all group policies
+
+
+##    Steps: 
+
+1- Reset group policies: 
+
+RD /S /Q "%WinDir%\System32\GroupPolicy"
+RD /S /Q "%WinDir%\System32\GroupPolicyUsers"
+
+Command explaination: 
+RD: Remove directory /S: Reqursivly  /Q: Quite (No confirm messages)
+%WinDir%: Environment variable to get the windows system path
+
+2- Delete policies keys from registry:
+
+reg delete "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" /f
+reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies" /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies" /f
+
+reg delete: Special command to delete keys from Registry.
+
+ (HKLM\... HKCU\...): places where the policies are stored
+
+HKLM (HKEY_LOCAL_MACHINE): The whole device settings.
+
+HKCU (HKEY_CURRENT_USER): User settings.
+
+/f: اختصار لـ Force، وتُستخدم لإجبار النظام على حذف المفتاح فوراً دون ظهور رسالة تأكيد.
+
+3- Apply changes: 
+
+gpupdate /force
+gpupdate: update group policy
+/force apply settings regardless if it was applied before

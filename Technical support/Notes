@@ -1,0 +1,76 @@
+#### Note 1 ####
+Word correspondences must contain at least one bookmark to be saved
+#### End Note 1 ####
+
+#### Note 2 ####
+-- To open pluggable DB
+ALTER PLUGGABLE DATABASE ALL OPEN;
+ALTER PLUGGABLE DATABASE ALL SAVE STATE;
+#### End Note 2 ####
+
+####  Note 3 ####
+In oracle there is the root DB on a domain orcl.server.vm
+and the pluggable one which is used in client connecitons 
+localhost:1521/orcl_PDB.server.vm
+tablespaces represents the DB name, however in connections with clients we use the username in the DB name feild
+Root DB & pluggable DB (Created with the wizard) -> tablespaces with users
+Root -> pluggable -> tablespace -> users
+
+for connection with any client: use existing -> create
+#### End Note 3 ####
+
+#### Note 4 ####
+Altering queries can only be performed on the root DB not the pluggable
+#### End Note 4 ####
+
+#### Note 5 ####
+--Creating table space and user with permissions
+
+CREATE TABLESPACE Tarasol
+DATAFILE 'Tarasol.dbf' 
+SIZE 100M 
+AUTOEXTEND ON NEXT 50M 
+MAXSIZE UNLIMITED;
+
+-- Create the user 
+create user zaher
+  identified by "123"
+  default tablespace Tarasol
+  temporary tablespace TEMP;
+
+
+grant connect to zaher;
+grant resource to zaher;
+grant create trigger to zaher;
+grant create view to zaher;
+grant unlimited tablespace to zaher;
+grant execute on CTXSYS.Ctx_Ddl to zaher;
+GRANT CREATE MATERIALIZED VIEW TO zaher;
+#### End Note 5 ####
+
+#### Note 5 ####
+To use he mobile app, 
+1- Install middleware
+2- Activate from IAM
+3- From original settings folder copy Resources and themes into the folder mobile files
+4- In appsettings.json edit the ip for Tarasol api, and set verison to 0
+5- In tarasol.config add the url for IAM
+#### End Note 5 ####
+
+#### Note 6 ####
+Archmate connection with Tarasol
+1- Token from admin user into the file AMWK10 -> settings -> settings.config
+2- Set ip in the identityserver settings in AMWI10 | AMAdmin10 | AMWK10
+3- 
+#### End Note 6 ####
+
+#### Note 7 ####
+On mobile app: 
+1- You can't stamp, only sign from saved or free sign.
+2- You can't move in the repeated stage.
+3- You can't sent it back if you're not the owner (in repeated stages).
+4- Only Archives from the server appears (Not Archmate).
+4- Approving shows an error but operation is successfull.
+#### End Note 7 ####
+
+
