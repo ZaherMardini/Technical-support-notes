@@ -49,7 +49,7 @@ GRANT CREATE MATERIALIZED VIEW TO zaher;
 #### End Note 5 ####
 
 #### Note 5 ####
-To use he mobile app, 
+To use the mobile app, 
 1- Install middleware
 2- Activate from IAM
 3- From original settings folder copy Resources and themes into the folder mobile files
@@ -61,7 +61,12 @@ To use he mobile app,
 Archmate connection with Tarasol
 1- Token from admin user into the file AMWK10 -> settings -> settings.config
 2- Set ip in the identityserver settings in AMWI10 | AMAdmin10 | AMWK10
-3- 
+3- Connection settings -> stores -> create new permenant store from ArcMate type, and set the token and Service url (AMService10 url without slash)
+4- Connection settings -> Archive settings -> enable Archive integration
+5- Search in archive url => AMWK10 url
+6- Archive Service url   => AMService10 url (API)
+7- From unites and positions settings -> edit unit settings -> Folder path => Folder created in AMWI10 
+
 #### End Note 6 ####
 
 #### Note 7 ####
@@ -69,8 +74,35 @@ On mobile app:
 1- You can't stamp, only sign from saved or free sign.
 2- You can't move in the repeated stage.
 3- You can't sent it back if you're not the owner (in repeated stages).
-4- Only Archives from the server appears (Not Archmate).
+4- Only Archives from the server appears (Not Archmate's).
 4- Approving shows an error but operation is successfull.
 #### End Note 7 ####
 
+#### Note 8 ####
+--> To recycle all application pools: 
 
+& "$env:windir\system32\inetsrv\appcmd.exe" list apppool /state:Started /xml | & "$env:windir\system32\inetsrv\appcmd.exe" recycle apppool /in
+
+--> After adding the bin path to Paht variable:
+ & appcmd list apppool /state:Started /xml | & appcmd recycle apppool /in
+#### End Note 8 ####
+
+#### Note 9 ####
+-->To list Oracle services:
+
+Get-Service -Name "Oracle*" |
+    Format-Table Name, DisplayName, Status, StartType -AutoSize
+
+--> Start Oracle services: 
+
+    Get-Service -Name "Oracle*" |
+        Where-Object Status -ne "Running" |
+        Start-Service
+
+
+-->To find the directory of a Service
+
+Get-CimInstance Win32_Service |
+    Where-Object { $_.Name -like "Oracle*" } |
+    Select-Object Name, State, PathName
+#### End Note 9 ####
